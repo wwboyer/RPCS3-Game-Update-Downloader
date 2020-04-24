@@ -56,11 +56,9 @@ async def download_update(url: str, save_path: str, size: int, button: tk.Button
 
 async def load_game_info():
   async with aiohttp.ClientSession() as session:
-    print("hello")
     for game in game_ids:
       async with session.get(f"https://a0.ww.np.dl.playstation.net/tpl/np/{game}/{game}-ver.xml", ssl=False) as response:
         content = await response.text()
-        print(content)
         if response.status == 404 or content == "":
           print(f"Nothing found for {game}!")
         else:
@@ -71,10 +69,10 @@ async def load_game_info():
             updates_list.append(update.attrib)
             try:
               title = update[0][0].text
-              print(title)
+              print(f"New title: {title}")
               updates_dict[title] = updates_list
             except IndexError:
-              print("IndexError thrown! Likely no children for this one.")
+              print("IndexError thrown! No TITLE tag found, ignoring...")
           updates_list = []
   for (title, updates) in updates_dict.items():
     current_game = tk.LabelFrame(header, text=title)
