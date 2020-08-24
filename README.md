@@ -11,4 +11,8 @@ This program requires:
 
 The program uses an MIT License, so just give me credit if you want to do stuff with it, although quite frankly the code is so bad you probably won't want to use it anyway.
 
-I can't think of anything else to write here, so I'll probably do that later if I think of anything.
+THANKS TO
+=========
+
+In addition to the aforementioned libraries and their authors and contributors, I'd like to thank:
+* Jose Salvatierra of The Teclado Blog (https://blog.tecladocode.com/tkinter-scrollable-frames/) for his easy to follow demonstration of how to create a scrollable frame in Tkinter
