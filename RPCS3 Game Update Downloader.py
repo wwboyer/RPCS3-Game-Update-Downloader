@@ -167,9 +167,10 @@ async def load_game_info():
   canvas.configure(yscrollcommand=scrollbar.set)
   # Allow the user to scroll the list using their mouse's scroll wheel.
   canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(int(-e.delta/120), "units"))
+  canvas.bind("<Configure>", lambda e: canvas.scale("all", 0, 0, e.width, e.height))
 
   # Set the container, canvas, and scrollbar to be visible.
-  container.pack(fill=tk.X)
+  container.pack(fill=tk.BOTH, expand=True)
   canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
   scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
@@ -179,7 +180,7 @@ root.title("PS3 Game Update Downloader")
 
 # Create a Tkinter Frame to act as our primary frame for all widgets.
 main_frame = tk.Frame(root)
-main_frame.pack()
+main_frame.pack(fill=tk.BOTH, expand=True)
 
 # Create a Tkinter Label to fill space while the program is retrieving updates.
 loading_label = tk.Label(main_frame, text="Loading...")
