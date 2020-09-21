@@ -1,7 +1,7 @@
 ## This code is trash and will make your eyes bleed. You have been warned.
 
 ## This program requires you to install PyYAML and aiohttp (python -m pip pyyaml aiohttp[speedups])
-## This program also requires Python 3.6 or higher due to using f-strings
+## This program also requires Python 3.8 or higher due to using the walrus operator
 import yaml
 import asyncio
 import aiohttp
@@ -61,12 +61,8 @@ async def download_update(url: str, save_path: str, size: int, button: tk.Button
     async with session.get(url) as resp:
       # Create the file at file_path if it doesn't exist and open it as writeable binary with the name file and:
       with open(file_path, 'wb') as file:
-        while True:
-          # Read the first 2^20 (approx 1 million bytes or 1MB) of the response as chunk.
-          chunk = await resp.content.read(2**20)
-          # If chunk is a falsy value, break the loop.
-          if not chunk:
-            break
+        # While chunk is assigned to a truthy value:
+        while (chunk := await resp.content.read(2**20)):
           # Write the current chunk to file.
           file.write(chunk)
           # Increment the progress bar by the length of the current chunk (usually 1MB unless near the end of file)
