@@ -4,7 +4,7 @@ RPCS3 Update Downloader
 This program is a simple Python script that parses RPCS3's `games.yml` file and allows the user to download updates for any games in their RPCS3 library using a simple tkinter GUI.
 
 This program requires:
-* Python 3.6 or higher (to utilize f-strings for string formatting)
+* Python 3.8 or higher (due to using the amazing walrus operator that caused no controversy and everybody loved)
 * PyYAML (to parse the `games.yml` file)
 * AIOHTTP (to make HTTP requests without locking up the GUI)  
   * Recommended: install AIOHTTP using `pip install aiohttp[speedups]` for faster DNS resolving and character encoding detection
