@@ -12,6 +12,11 @@ from tkinter import filedialog
 from xml.etree import ElementTree
 from typing import Callable
 
+## CONSTANTS
+# Declare a constant for 1MiB, which is 2^20
+ONE_MEBIBYTE = 2**20
+
+## FUNCTIONS
 # async_op takes in an async function and a list of arguments for said function. It then creates an Event Loop and runs the async function in a thread using said loop.
 def async_op(func: Callable[[], None], args: list = []):
   loop = asyncio.new_event_loop()
@@ -62,10 +67,10 @@ async def download_update(url: str, save_path: str, size: int, button: tk.Button
       # Create the file at file_path if it doesn't exist and open it as writeable binary with the name file and:
       with open(file_path, 'wb') as file:
         # While chunk is assigned to a truthy value:
-        while (chunk := await resp.content.read(2**20)):
+        while (chunk := await resp.content.read(ONE_MEBIBYTE)):
           # Write the current chunk to file.
           file.write(chunk)
-          # Increment the progress bar by the length of the current chunk (usually 1MB unless near the end of file)
+          # Increment the progress bar by the length of the current chunk (usually 1MiB unless near the end of file)
           downloading_progress_bar.step(amount=len(chunk))
     # Change the text of the tkinter Button and set its state to disabled
     button.configure(text="Downloaded!", state=tk.DISABLED)
@@ -134,8 +139,8 @@ async def load_game_info():
       # Create a Tkinter Label and set its text to show the version of the update file.
       game_version = tk.Label(current_game, text=f"Version: {update['version']}")
       game_version.pack()
-      # Create a Tkinter Label and set its text to show the size of the update file in MB rounded to 1 decimal place.
-      game_size = tk.Label(current_game, text=f"Update Size: {round(int(update['size']) / 2**20, 1)} MB")
+      # Create a Tkinter Label and set its text to show the size of the update file in MiB rounded to 1 decimal place.
+      game_size = tk.Label(current_game, text=f"Update Size: {round(int(update['size']) / ONE_MEBIBYTE, 1)} MiB")
       game_size.pack()
       # Create a Tkinter Label and set its text to show the SHA1 Checksum of the update file.
       game_sha1_sum = tk.Label(current_game, text=f"SHA1 Checksum: {update['sha1sum']}")
@@ -148,7 +153,7 @@ async def load_game_info():
       # Set the Button's command to download the specified game update using the async_download_handler function.
       # The reason this looks like such a mess is because:
       # 1. I am bad at coding.
-      # 2. Since Tkinter doesn't neatly support multi-threaded tasks, the download bar would not show any progress unless I specifically create a new asyncio Event Loop to run the download task in asynchronously.
+      # 2. Since Tkinter doesn't neatly support multi-threaded tasks, the download bar would not show any progress unless I specifically create a new asyncio Event Loop to run the download task asynchronously.
       game_download.config(command=lambda url=update['url'], button=game_download, size=int(update['size']): async_op(async_download_handler, [url, save_path, size, button]))
       game_download.pack()
   # Make the loading bar and label invisible since they are no longer needed.
