@@ -146,7 +146,7 @@ async def load_game_info():
       game_sha1_sum = tk.Label(current_game, text=f"SHA1 Checksum: {update['sha1sum']}")
       game_sha1_sum.pack()
       # Create a Tkinter Label and set its text to show the PS3 firmware version required by the update.
-      game_system_version = tk.Label(current_game, text="Required Firmware: Version %.2f" % float(update['ps3_system_ver']))
+      game_system_version = tk.Label(current_game, text="Required Firmware: Version %.2f" % float(update.get('ps3_system_ver', 0) ))
       game_system_version.pack()
       # Create a Tkinter Button that will download the update to the previously specified save path on click.
       game_download = tk.Button(current_game, text="Download Update")
